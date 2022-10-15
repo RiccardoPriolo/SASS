@@ -1,0 +1,111 @@
+$primary-color: red;
+$secondary-color: green;
+$tertiary-color: blue;
+
+$border1: 2px solid green;
+$border2: 2px solid blue;
+$border3: 2px solid red;
+
+@function resize($px) {
+  @return unquote(calc($px / 16px) + "rem");
+}
+
+$sizes: 1rem, 2rem, 3rem;
+@each $size in $sizes {
+  .fs-#{$size} {
+    font-size: $size;
+    width: resize(45px);
+    height: resize(45px);
+    justify-content: start;
+    align-items: start;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@for $i from 1 through 19 {
+  @if $i != 10 {
+    div[class^="fs"]:nth-child(#{$i}) {
+      background-color: darken(white, calc(5% * $i));
+      color: lighten(black, calc(5% * $i));
+    }
+  } @else {
+    div[class^="fs"]:nth-child(#{$i}) {
+      background-color: $tertiary-color;
+      color: $primary-color;
+      font-weight: bold;
+    }
+  }
+}
+
+%pagetitle {
+  color: green;
+  text-decoration: underline blue;
+  text-underline-offset: resize(10px);
+}
+
+div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: $border3;
+  padding: 10px;
+  gap: 10px;
+  width: fit-content;
+  height: fit-content;
+  max-width: 1440px;
+  margin: auto;
+
+  h1 {
+    @extend %pagetitle;
+  }
+
+  h2 {
+    @extend %pagetitle;
+    padding: 1rem;
+    border: $border3;
+  }
+
+  section {
+    display: flex;
+    justify-content: space-between;
+
+    article {
+      &:nth-child(odd) {
+        border: $border1;
+        color: $tertiary-color;
+        font-size: resize(16px);
+        text-align: center;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      &:nth-child(even) {
+        border: $border1;
+        color: $primary-color;
+        padding: 10px;
+        text-align: center;
+        box-sizing: border-box;
+      }
+    }
+
+    &:nth-child(even) {
+      min-width: 100%;
+    }
+
+    &:last-child {
+      min-width: 100%;
+
+      article {
+        border: $border2;
+        color: $secondary-color;
+        min-width: 100%;
+        text-align: center;
+        padding: 10px;
+        box-sizing: border-box;
+        font-size: resize(24px);
+      }
+    }
+  }
+}
